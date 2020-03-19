@@ -77,8 +77,8 @@ block
     | LBRACE RBRACE { $$ = new Block(); }
     ;
 var_decl_full
-    : var_decl SEMI { /* Already handled */ }
-    | var_decl EQUALS expr SEMI {
+    : var_decl { /* Already handled */ }
+    | var_decl EQUALS expr {
         static_cast<VarDeclaration*>($$)->set_assignment_expr($3);
     }
     ;
