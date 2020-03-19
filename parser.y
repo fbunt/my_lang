@@ -137,7 +137,7 @@ expr
     | ident { $<ident>$ = $1; }
     | binary_op_expr
     | boolean_expr
-    | LPAREN expr RPAREN { $$ = $2 }
+    | LPAREN expr RPAREN { $$ = $2; }
     | literal
     ;
 binary_op_expr
