@@ -125,7 +125,7 @@ literal
         delete $1;
     }
     | BOOLEAN {
-        $$ = new Boolean(*$1 == "true" ? true : false)
+        $$ = new Boolean(*$1 == "true" ? true : false);
     }
     ;
 expr
