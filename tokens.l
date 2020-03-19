@@ -9,11 +9,13 @@ E    ([Ee][+-]?{D}+)
 %{
 #include <iostream>
 #include <string>
-#include "parser.tab.h"
+#include "ast.hpp"
+#include "parser.hpp"
+
 #define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
 #define TOKEN(t) (yylval.token = t)
 
-extern "C" int yylex()
+extern "C" int yylex();
 
 %}
 
@@ -39,7 +41,6 @@ extern "C" int yylex()
 
 {HP}{H}+           { SAVE_TOKEN; return INTEGER; }
 {NZ}{D}*           { SAVE_TOKEN; return INTEGER; }
-{NZ}{D}*           { SAVE_TOKEN; return INTEGER; }
 
 {D}+{E}?           { SAVE_TOKEN; return FLOAT; }
 {D}*"."{D}+{E}?    { SAVE_TOKEN; return FLOAT; }
@@ -64,7 +65,7 @@ extern "C" int yylex()
 "("                { return TOKEN(LPAREN); }
 ")"                { return TOKEN(RPAREN); }
 "{"                { return TOKEN(LBRACE); }
-"{"                { return TOKEN(RBRACE); }
+"}"                { return TOKEN(RBRACE); }
 "."                { return TOKEN(DOT); }
 ","                { return TOKEN(COMMA); }
 ";"                { return TOKEN(SEMI); }

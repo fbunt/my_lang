@@ -1,14 +1,3 @@
-/***
- Purpose: Assign expression values to variables.
- Expressions can either be addition, subtraction,
- multiplication, or division between integers or
- previously assigned variables. The expressions
- should be in a hierarchy that interprets the 
- order of operations correctly. Be able to return
- the stored value of an assigned variable by calling
- the name as a single line command.
-**/
-
 %{
 #include <cstdio>
 #include <cstring>
@@ -19,8 +8,9 @@
 #include "ast.hpp"
 
 extern "C" int yylex();
+extern "C" int yyparse();
 /* Display error messages */
-void yyerror(const char* s) { std::printf("ERROR: %sn", s); }
+void yyerror(const char* s) { std::printf("ERROR: %s\n", s); }
 
 #define YYERROR_VERBOSE
 #define YYDEBUG 1
@@ -168,6 +158,8 @@ comparison
 
 %%
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	yyparse();
+    return 0;
 }

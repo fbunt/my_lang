@@ -1,16 +1,21 @@
-CC=g++-9
-CFLAGS=-I -O3 -std=c++11
+CC=g++
+CFLAGS=-O3 -std=c++11
+LDFLAGS=-lfl
+OBJS=parser.o tokens.o
 
 all: parser
 
-parser.tab.c: parser.y
-	bison -d parser.y
+parser.cpp: parser.y
+	bison -d -o $@ $^
 
-lex.yy.c: tokens.l
-	flex tokens.l
+tokens.cpp: tokens.l
+	flex -o $@ $^
 
-parser: tokens.l parser.y parser.tab.c lex.yy.c main.cpp
-	$(CC) $(CFLAGS) main.cpp parser.tab.c lex.yy.c -ll -o parser
+%.o: %.cpp
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+parser: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
 clean:
-	rm *yy.c *tab.c *tab.h *.o
+	rm -rf parser.cpp parser.hpp parser tokens.cpp *.o
