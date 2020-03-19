@@ -1,6 +1,7 @@
-CC=g++
+CC:=$(shell ./get_compiler.sh)
 CFLAGS=-O3 -std=c++11
-LDFLAGS=-lfl
+FLEXLIB:=$(shell ./get_flex_lib.sh)
+LDFLAGS=-l$(FLEXLIB)
 OBJS=parser.o tokens.o
 
 all: parser
