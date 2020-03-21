@@ -1,3 +1,6 @@
+#ifndef __AST_HPP__
+#define __AST_HPP__
+
 #include <iostream>
 #include <vector>
 // TODO: #include <llvm/Value.h>
@@ -158,3 +161,4 @@ public:
     }
     /* virtual llvm::Value* codeGen(CodeGenContext& context); */
 };
+#endif // __AST_HPP__
