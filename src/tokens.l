@@ -46,12 +46,12 @@ extern "C" int yylex();
 "true"             { SAVE_TOKEN; return BOOLEAN; }
 "false"            { SAVE_TOKEN; return BOOLEAN; }
 
-{HP}{H}+           { SAVE_TOKEN; return INTEGER; }
-{NZ}{D}*           { SAVE_TOKEN; return INTEGER; }
+[+-]?{HP}{H}+           { SAVE_TOKEN; return INTEGER; }
+[+-]?{NZ}{D}*           { SAVE_TOKEN; return INTEGER; }
 
-{D}+{E}?           { SAVE_TOKEN; return FLOAT; }
-{D}*"."{D}+{E}?    { SAVE_TOKEN; return FLOAT; }
-{D}+"."{E}?        { SAVE_TOKEN; return FLOAT; }
+[+-]?{D}+{E}?           { SAVE_TOKEN; return FLOAT; }
+[+-]?{D}*"."{D}+{E}?    { SAVE_TOKEN; return FLOAT; }
+[+-]?{D}+"."{E}?        { SAVE_TOKEN; return FLOAT; }
 
 {A}{AN}*           { SAVE_TOKEN; return IDENTIFIER; }
 
@@ -76,6 +76,7 @@ extern "C" int yylex();
 "."                { return TOKEN(DOT); }
 ","                { return TOKEN(COMMA); }
 ";"                { return TOKEN(SEMI); }
+":"                { return TOKEN(COLON); }
 .                  { std::cout << "Unknown token" << std::endl; yyterminate(); }
 
 

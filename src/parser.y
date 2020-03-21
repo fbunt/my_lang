@@ -36,8 +36,8 @@ Block* program;
 %token<string> IDENTIFIER INTEGER FLOAT BOOLEAN
 %token<token> EQUALS ADD SUB MULT DIV DOT COMMA
 %token<token> COMP_EQ COMP_NEQ COMP_LEQ COMP_GEQ COMP_LT COMP_GT
-%token<token> LPAREN RPAREN LBRACE RBRACE SEMI ARROW
-%token<token> FN
+%token<token> LPAREN RPAREN LBRACE RBRACE SEMI ARROW COLON
+%token<token> FN LET
 
 
 /* Nonterminal types */
@@ -46,7 +46,7 @@ Block* program;
 %type<varlist> func_decl_args
 %type<exprlist> call_args
 %type<block> program statements block
-%type<stmt> statement var_decl_full var_decl func_decl 
+%type<stmt> statement var_decl func_decl
 %type<token> comparison
 
 %left ADD SUB
@@ -68,7 +68,7 @@ statements
     | statements statement { $1->statements.push_back($<stmt>2); }
     ;
 statement
-    : var_decl_full
+    : var_decl
     | func_decl
     | expr { $$ = new ExprStatement(*$1); }
     ;
@@ -76,14 +76,11 @@ block
     : LBRACE statements RBRACE { $$ = $2; }
     | LBRACE RBRACE { $$ = new Block(); }
     ;
-var_decl_full
-    : var_decl { /* Already handled */ }
-    | var_decl EQUALS expr {
-        static_cast<VarDeclaration*>($$)->set_assignment_expr($3);
-    }
-    ;
 var_decl
-    : ident ident { $$ = new VarDeclaration(*$1, *$2); }
+    : ident COLON ident { $$ = new VarDeclaration(*$1, *$3); }
+    | ident COLON ident EQUALS expr {
+        $$ = new VarDeclaration(*$1, *$3, $5);
+    }
     ;
 func_decl
     : FN ident LPAREN func_decl_args RPAREN ARROW ident block {

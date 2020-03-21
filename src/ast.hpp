@@ -127,12 +127,12 @@ public:
     const Identifier& type;
     Identifier& id;
     Expression* assignmentExpr;
-    VarDeclaration(const Identifier& type, Identifier& id) : type(type), id(id)
+    VarDeclaration(Identifier& id, const Identifier& type) : id(id), type(type)
     {
     }
     VarDeclaration(
-            const Identifier& type,
             Identifier& id,
+            const Identifier& type,
             Expression* assignmentExpr) :
         type(type), id(id), assignmentExpr(assignmentExpr)
     {
