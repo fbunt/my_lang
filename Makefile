@@ -7,7 +7,7 @@ OBJS := $(OBJ_DIR)/parser.o  $(OBJ_DIR)/tokens.o $(OBJ_DIR)/ast.o
 
 CC := $(shell ./scripts/get_compiler.sh)
 CFLAGS := -O3 -std=c++11
-LDFLAGS := -Llib
+LDFLAGS := $(shell ./scripts/get_ldflags.sh)
 LDLIBS := -l$(shell ./scripts/get_flex_lib.sh)
 
 .PHONY: all clean
