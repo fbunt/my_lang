@@ -3,7 +3,7 @@ SRC_DIR := src
 FB_SRCS := $(SRC_DIR)/parser.cpp $(SRC_DIR)/tokens.cpp
 BHDR := $(SRC_DIR)/parser.hpp
 OBJ_DIR := obj
-OBJS := $(OBJ_DIR)/parser.o  $(OBJ_DIR)/tokens.o
+OBJS := $(OBJ_DIR)/parser.o  $(OBJ_DIR)/tokens.o $(OBJ_DIR)/ast.o
 
 CC := $(shell ./scripts/get_compiler.sh)
 CFLAGS := -O3 -std=c++11
