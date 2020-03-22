@@ -105,7 +105,12 @@ var_decl
     }
     ;
 func_decl
-    : FN ident LPAREN func_decl_params RPAREN ARROW ident block {
+    : FN ident LPAREN func_decl_params RPAREN block {
+        Identifier* type = new Identifier("void");
+        $$ = new FuncDeclaration(*$2, *$4, *type, *$6);
+        delete $4;
+    }
+    | FN ident LPAREN func_decl_params RPAREN ARROW ident block {
         $$ = new FuncDeclaration(*$2, *$4, *$7, *$8);
         delete $4;
     }
