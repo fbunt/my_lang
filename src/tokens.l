@@ -42,6 +42,7 @@ extern "C" int yylex();
 <block_comment>(.|\n)  ;
 
 "fn"               { return TOKEN(FN); }
+"return"           { return TOKEN(RETURN); }
 
 "true"             { SAVE_TOKEN; return BOOLEAN; }
 "false"            { SAVE_TOKEN; return BOOLEAN; }

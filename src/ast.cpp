@@ -153,3 +153,10 @@ void FuncDeclaration::translate() const
     cout << ")";
     block.translate();
 }
+
+void Return::translate() const
+{
+    ast_print("return");
+    expr.translate();
+    ast_println(";");
+}

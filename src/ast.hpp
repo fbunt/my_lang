@@ -190,4 +190,13 @@ public:
 
     void translate() const;
 };
+
+class Return : public Statement
+{
+public:
+    Expression& expr;
+    Return(Expression& expr) : expr(expr) {}
+
+    void translate() const;
+};
 #endif  // __AST_HPP__

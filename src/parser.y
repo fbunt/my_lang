@@ -42,7 +42,7 @@ long long bid = 0;
 %token<token> EQUALS ADD SUB MULT DIV DOT COMMA
 %token<token> COMP_EQ COMP_NEQ COMP_LEQ COMP_GEQ COMP_LT COMP_GT
 %token<token> LPAREN RPAREN LBRACE RBRACE SEMI ARROW COLON
-%token<token> FN LET
+%token<token> FN LET RETURN
 
 
 /* Nonterminal types */
@@ -51,7 +51,7 @@ long long bid = 0;
 %type<paramlist> func_decl_params
 %type<exprlist> call_args
 %type<block> program statements block
-%type<stmt> statement var_decl func_decl param_decl
+%type<stmt> statement var_decl func_decl param_decl return
 %type<token> comparison
 
 %right EQUALS
@@ -83,6 +83,7 @@ statements
 statement
     : var_decl
     | func_decl
+    | return
     | expr {
         $$ = new ExprStatement(*$1);
     }
@@ -143,6 +144,11 @@ literal
     }
     | BOOLEAN {
         $$ = new Boolean(*$1 == "true" ? true : false);
+    }
+    ;
+return
+    : RETURN expr {
+        $$ = new Return(*$2);
     }
     ;
 expr
