@@ -7,24 +7,25 @@
 class Statement;
 class Expression;
 class VarDeclaration;
+class FuncParam;
 
 typedef std::vector<Statement*> StatementList;
 typedef std::vector<Expression*> ExprList;
-typedef std::vector<VarDeclaration*> VarList;
+typedef std::vector<FuncParam*> ParamList;
 
 class AstNode
 {
 public:
     virtual ~AstNode() {}
-    
-    virtual void translate() {};
-};
 
-class Expression : public AstNode
-{
+    virtual void translate() const;
 };
 
 class Statement : public AstNode
+{
+};
+
+class Expression : public Statement
 {
 };
 
@@ -33,7 +34,7 @@ class Integer : public Expression
 public:
     long long value;
     Integer(long long value) : value(value) {}
-    
+
     void translate() const;
 };
 
@@ -42,7 +43,7 @@ class Double : public Expression
 public:
     double value;
     Double(double value) : value(value) {}
-    
+
     void translate() const;
 };
 
@@ -51,7 +52,7 @@ class Boolean : public Expression
 public:
     bool value;
     Boolean(bool value) : value(value) {}
-    
+
     void translate() const;
 };
 
@@ -60,7 +61,7 @@ class Identifier : public Expression
 public:
     std::string name;
     Identifier(const std::string& name) : name(name) {}
-    
+
     void translate() const;
 };
 
@@ -74,7 +75,7 @@ public:
     {
     }
     FuncCall(const Identifier& id) : id(id) {}
-    
+
     void translate() const;
 };
 
@@ -88,7 +89,7 @@ public:
         lhs(lhs), rhs(rhs), op(op)
     {
     }
-    
+
     void translate() const;
 };
 
@@ -102,7 +103,7 @@ public:
         lhs(lhs), rhs(rhs), op(op)
     {
     }
-    
+
     void translate() const;
 };
 
@@ -112,16 +113,21 @@ public:
     Identifier& lhs;
     Expression& rhs;
     Assignment(Identifier& lhs, Expression& rhs) : lhs(lhs), rhs(rhs) {}
-    
+
     void translate() const;
 };
+
+class FuncDeclaration;
 
 class Block : public Expression
 {
 public:
     StatementList statements;
-    Block() {}
-    
+    FuncDeclaration* parent = NULL;
+    long long id;
+    Block(long long id) : id(id) {}
+
+    void set_parent(FuncDeclaration* parent) { this->parent = parent; }
     void translate() const;
 };
 
@@ -130,15 +136,15 @@ class ExprStatement : public Statement
 public:
     Expression& expression;
     ExprStatement(Expression& expression) : expression(expression) {}
-    
+
     void translate() const;
 };
 
 class VarDeclaration : public Statement
 {
 public:
-    const Identifier& type;
     Identifier& id;
+    const Identifier& type;
     Expression* assignmentExpr;
     VarDeclaration(Identifier& id, const Identifier& type) : id(id), type(type)
     {
@@ -147,30 +153,41 @@ public:
             Identifier& id,
             const Identifier& type,
             Expression* assignmentExpr) :
-        type(type), id(id), assignmentExpr(assignmentExpr)
+        id(id), type(type), assignmentExpr(assignmentExpr)
     {
     }
     void set_assignment_expr(Expression* expr) { assignmentExpr = expr; }
-    
+
+    void translate() const;
+};
+
+class FuncParam : public Statement
+{
+public:
+    Identifier& id;
+    const Identifier& type;
+    FuncParam(Identifier& id, const Identifier& type) : id(id), type(type) {}
+
     void translate() const;
 };
 
 class FuncDeclaration : public Statement
 {
 public:
-    const Identifier& type;
     const Identifier& id;
-    VarList arguments;
+    ParamList arguments;
+    const Identifier& type;
     Block& block;
     FuncDeclaration(
             const Identifier& id,
-            const VarList& arguments,
+            const ParamList& arguments,
             const Identifier& type,
             Block& block) :
-        type(type), id(id), arguments(arguments), block(block)
+        id(id), arguments(arguments), type(type), block(block)
     {
+        block.set_parent(this);
     }
-    
+
     void translate() const;
 };
-#endif // __AST_HPP__
+#endif  // __AST_HPP__
