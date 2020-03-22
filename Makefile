@@ -12,7 +12,7 @@ LDLIBS := -l$(shell ./scripts/get_flex_lib.sh)
 
 .PHONY: all clean
 
-all: parser
+all: $(EXE)
 
 $(EXE): $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
