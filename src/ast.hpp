@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-// TODO: #include <llvm/Value.h>
 
 class Statement;
 class Expression;
@@ -17,7 +16,8 @@ class AstNode
 {
 public:
     virtual ~AstNode() {}
-    virtual void translate() {}
+    
+    virtual void translate() {};
 };
 
 class Expression : public AstNode
@@ -33,7 +33,8 @@ class Integer : public Expression
 public:
     long long value;
     Integer(long long value) : value(value) {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class Double : public Expression
@@ -41,7 +42,8 @@ class Double : public Expression
 public:
     double value;
     Double(double value) : value(value) {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class Boolean : public Expression
@@ -49,7 +51,8 @@ class Boolean : public Expression
 public:
     bool value;
     Boolean(bool value) : value(value) {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class Identifier : public Expression
@@ -57,7 +60,8 @@ class Identifier : public Expression
 public:
     std::string name;
     Identifier(const std::string& name) : name(name) {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class FuncCall : public Expression
@@ -70,7 +74,8 @@ public:
     {
     }
     FuncCall(const Identifier& id) : id(id) {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class BinaryOp : public Expression
@@ -83,7 +88,8 @@ public:
         lhs(lhs), rhs(rhs), op(op)
     {
     }
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class CompOp : public Expression
@@ -96,7 +102,8 @@ public:
         lhs(lhs), rhs(rhs), op(op)
     {
     }
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class Assignment : public Expression
@@ -105,7 +112,8 @@ public:
     Identifier& lhs;
     Expression& rhs;
     Assignment(Identifier& lhs, Expression& rhs) : lhs(lhs), rhs(rhs) {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class Block : public Expression
@@ -113,7 +121,8 @@ class Block : public Expression
 public:
     StatementList statements;
     Block() {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class ExprStatement : public Statement
@@ -121,7 +130,8 @@ class ExprStatement : public Statement
 public:
     Expression& expression;
     ExprStatement(Expression& expression) : expression(expression) {}
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class VarDeclaration : public Statement
@@ -141,7 +151,8 @@ public:
     {
     }
     void set_assignment_expr(Expression* expr) { assignmentExpr = expr; }
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 
 class FuncDeclaration : public Statement
@@ -159,6 +170,7 @@ public:
         type(type), id(id), arguments(arguments), block(block)
     {
     }
-    /* virtual llvm::Value* codeGen(CodeGenContext& context); */
+    
+    void translate() const;
 };
 #endif // __AST_HPP__
