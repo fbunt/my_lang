@@ -144,6 +144,7 @@ literal
     }
     | BOOLEAN {
         $$ = new Boolean(*$1 == "true" ? true : false);
+        delete $1;
     }
     ;
 return
