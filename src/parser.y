@@ -54,9 +54,11 @@ long long bid = 0;
 %type<stmt> statement var_decl func_decl param_decl
 %type<token> comparison
 
+%right EQUALS
+%left COMP_EQ COMP_NEQ
+%left COMP_LEQ COMP_GEQ COMP_LT COMP_GT
 %left ADD SUB
 %left MULT DIV
-%left COMP_EQ COMP_NEQ COMP_LEQ COMP_GEQ COMP_LT COMP_GT
 
 %start program
 %%
