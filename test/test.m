@@ -1,5 +1,6 @@
 // Add 10 to a
 fn add10(a: int) -> int {
+    // I wasn't able to get rid of the pesky spaces in the range
     for i in (0 .. 10) {
         a = a + 1
     }
@@ -20,7 +21,7 @@ fn sub5(a: double) -> double {
 
 fn add25(a: int) -> int {
     for i in (0 .. 5 * 5) {
-        a = a + 1
+        a = a + /* Don't mind me */ 1
     }
     return a
 }
