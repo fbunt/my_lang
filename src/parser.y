@@ -166,13 +166,13 @@ control_flow
     ;
 if_else
     : IF expr block {
-        $$ = new Conditional(*$2, *$2);
+        $$ = new Conditional(*$2, *$3);
     }
     | IF expr block ELSE block {
-        $$ = new Conditional(*$2, *$2, $5);
+        $$ = new Conditional(*$2, *$3, $5);
     }
     | IF expr block ELSE if_else {
-        $$ = new Conditional(*$2, *$2, $5);
+        $$ = new Conditional(*$2, *$3, $5);
     }
     ;
 while_loop
