@@ -250,6 +250,6 @@ int main(int argc, char** argv)
         Program program(ast_root);
         program.validate();
         program.translate();
-        return 0;
     }
+    return 0;
 }
