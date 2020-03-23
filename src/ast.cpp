@@ -240,7 +240,7 @@ void ForLoop::translate() const
     start.translate();
     cout << "; ";
     loop_var.translate();
-    cout << " <= ";
+    cout << " < ";
     end.translate();
     cout << "; ++";
     loop_var.translate();
