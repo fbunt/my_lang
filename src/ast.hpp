@@ -146,13 +146,10 @@ public:
     Identifier& id;
     const Identifier& type;
     Expression* assignmentExpr;
-    VarDeclaration(Identifier& id, const Identifier& type) : id(id), type(type)
-    {
-    }
     VarDeclaration(
             Identifier& id,
             const Identifier& type,
-            Expression* assignmentExpr) :
+            Expression* assignmentExpr = nullptr) :
         id(id), type(type), assignmentExpr(assignmentExpr)
     {
     }
@@ -196,6 +193,23 @@ class Return : public Statement
 public:
     Expression& expr;
     Return(Expression& expr) : expr(expr) {}
+
+    void translate() const;
+};
+
+class Conditional : public Statement
+{
+public:
+    Expression& condition;
+    Statement& block;
+    Statement* else_block;
+    Conditional(
+            Expression& condition,
+            Statement& block,
+            Statement* else_block = nullptr) :
+        condition(condition), block(block), else_block(else_block)
+    {
+    }
 
     void translate() const;
 };

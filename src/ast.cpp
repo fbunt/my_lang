@@ -161,3 +161,15 @@ void Return::translate() const
     expr.translate();
     ast_println(";");
 }
+
+void Conditional::translate() const
+{
+    cout << endl;
+    ast_print("if (");
+    condition.translate();
+    ast_print(")");
+    block.translate();
+    if (else_block != nullptr) {
+        else_block->translate();
+    }
+}

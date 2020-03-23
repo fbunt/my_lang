@@ -43,6 +43,8 @@ extern "C" int yylex();
 
 "fn"               { return TOKEN(FN); }
 "return"           { return TOKEN(RETURN); }
+"if"               { return TOKEN(IF); }
+"else"             { return TOKEN(ELSE); }
 
 "true"             { SAVE_TOKEN; return BOOLEAN; }
 "false"            { SAVE_TOKEN; return BOOLEAN; }
