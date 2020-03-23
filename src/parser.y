@@ -18,7 +18,7 @@ void yyerror(const char* s) { std::printf("ERROR: %s\n", s); }
 void print(std::string s) { cout << s << endl; }
 
 // Root node for the program
-Block* program;
+Block* ast_root = nullptr;
 // Block id; used for comments in final output
 long long bid = 0;
 %}
@@ -65,21 +65,19 @@ long long bid = 0;
 
 program
     : {
-        program = new Block(bid++);
-        program->set_outer();
+        ast_root = new Block(bid++);
     }
     | statements {
-        program = $1;
-        program->set_outer();
+        ast_root = $1;
     }
     ;
 statements
     : statement {
         $$ = new Block(bid++);
-        $$->statements.push_back($1);
+        $$->statements.push_back($<stmt>1);
     }
     | statements statement {
-        $1->statements.push_back($2);
+        $1->statements.push_back($<stmt>2);
     }
     ;
 statement
@@ -232,13 +230,13 @@ comparison
 
 %%
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-	yyparse();
-    program->translate();
-    Block main_block(bid++);
-    FuncDeclaration main(
-            Identifier("main"), ParamList(), Identifier("int"), main_block);
-    main.translate();
-    return 0;
+    yyparse();
+    if (ast_root != nullptr) {
+        Program program(ast_root);
+        program.validate();
+        program.translate();
+        return 0;
+    }
 }

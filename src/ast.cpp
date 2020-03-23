@@ -1,10 +1,12 @@
 #include "ast.hpp"
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
 #include "parser.hpp"
 
+using std::cerr;
 using std::cout;
 using std::endl;
 using std::string;
@@ -147,6 +149,32 @@ void FuncParam::translate() const
     id.translate();
 }
 
+/** Avoid collisions with C++ names */
+void mangle_func_name(string& name) { name.append("__func__"); }
+
+Identifier& mangle_func_id(Identifier& id)
+{
+    mangle_func_name(id.name);
+    return id;
+}
+
+std::unordered_set<std::string> Program::func_name_set;
+
+FuncDeclaration::FuncDeclaration(
+        Identifier& id,
+        const ParamList& arguments,
+        const Identifier& type,
+        Block& block) :
+    id(mangle_func_id(id)), arguments(arguments), type(type), block(block)
+{
+    if (Program::func_name_set.count(id.name) > 0) {
+        cerr << "ERROR: Redefinition of function: " << id.name << endl;
+        std::exit(1);
+    }
+    Program::func_name_set.insert(id.name);
+    block.set_parent(this);
+}
+
 void FuncDeclaration::translate() const
 {
     type.translate();
@@ -181,4 +209,26 @@ void Conditional::translate() const
     if (else_block != nullptr) {
         else_block->translate();
     }
+}
+
+void Program::validate() const
+{
+    // TODO: walk AST and enforce sturcture
+    string main("main");
+    mangle_func_name(main);
+    if (Program::func_name_set.count(main) == 0) {
+        cerr << "ERROR: no main function definition found" << endl;
+        std::exit(1);
+    }
+}
+
+void Program::translate() const {
+    ast_println("int main(int argc, char** argv) {");
+    string main_str("main");
+    mangle_func_name(main_str);
+    const Identifier main_id(main_str);
+    ExprList exprs;
+    FuncCall(main_id, exprs).translate();
+    cout << endl;
+    ast_println("}");
 }

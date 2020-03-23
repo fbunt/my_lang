@@ -2,6 +2,7 @@
 #define __AST_HPP__
 
 #include <iostream>
+#include <unordered_set>
 #include <vector>
 
 class Statement;
@@ -173,19 +174,15 @@ public:
 class FuncDeclaration : public Statement
 {
 public:
-    const Identifier& id;
+    Identifier& id;
     ParamList arguments;
     const Identifier& type;
     Block& block;
     FuncDeclaration(
-            const Identifier& id,
+            Identifier& id,
             const ParamList& arguments,
             const Identifier& type,
-            Block& block) :
-        id(id), arguments(arguments), type(type), block(block)
-    {
-        block.set_parent(this);
-    }
+            Block& block);
 
     void translate() const;
 };
@@ -213,6 +210,18 @@ public:
     {
     }
 
+    void translate() const;
+};
+
+class Program
+{
+public:
+    static std::unordered_set<std::string> func_name_set;
+    Block* ast;
+
+    Program(Block* ast) : ast(ast) { ast->set_outer(); }
+
+    void validate() const;
     void translate() const;
 };
 #endif  // __AST_HPP__
