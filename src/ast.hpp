@@ -34,6 +34,7 @@ class Integer : public Expression
 {
 public:
     long long value;
+
     Integer(long long value) : value(value) {}
 
     void translate() const;
@@ -43,6 +44,7 @@ class Double : public Expression
 {
 public:
     double value;
+
     Double(double value) : value(value) {}
 
     void translate() const;
@@ -52,6 +54,7 @@ class Boolean : public Expression
 {
 public:
     bool value;
+
     Boolean(bool value) : value(value) {}
 
     void translate() const;
@@ -61,6 +64,7 @@ class Identifier : public Expression
 {
 public:
     std::string name;
+
     Identifier(const std::string& name) : name(name) {}
 
     void translate() const;
@@ -71,6 +75,7 @@ class FuncCall : public Expression
 public:
     const Identifier& id;
     ExprList arguments;
+
     FuncCall(const Identifier& id, ExprList& arguments) :
         id(id), arguments(arguments)
     {
@@ -86,6 +91,7 @@ public:
     Expression& lhs;
     Expression& rhs;
     int op;
+
     BinaryOp(Expression& lhs, int op, Expression& rhs) :
         lhs(lhs), rhs(rhs), op(op)
     {
@@ -100,6 +106,7 @@ public:
     Expression& lhs;
     Expression& rhs;
     int op;
+
     CompOp(Expression& lhs, int op, Expression& rhs) :
         lhs(lhs), rhs(rhs), op(op)
     {
@@ -113,6 +120,7 @@ class Assignment : public Expression
 public:
     Identifier& lhs;
     Expression& rhs;
+
     Assignment(Identifier& lhs, Expression& rhs) : lhs(lhs), rhs(rhs) {}
 
     void translate() const;
@@ -127,6 +135,7 @@ public:
     FuncDeclaration* parent = nullptr;
     bool is_outer = false;
     long long id;
+
     Block(long long id) : id(id) {}
 
     void set_parent(FuncDeclaration* parent) { this->parent = parent; }
@@ -138,6 +147,7 @@ class ExprStatement : public Statement
 {
 public:
     Expression& expression;
+
     ExprStatement(Expression& expression) : expression(expression) {}
 
     void translate() const;
@@ -149,6 +159,7 @@ public:
     Identifier& id;
     const Identifier& type;
     Expression* assignmentExpr;
+
     VarDeclaration(
             Identifier& id,
             const Identifier& type,
@@ -166,6 +177,7 @@ class FuncParam : public Statement
 public:
     Identifier& id;
     const Identifier& type;
+
     FuncParam(Identifier& id, const Identifier& type) : id(id), type(type) {}
 
     void translate() const;
@@ -178,6 +190,7 @@ public:
     ParamList arguments;
     const Identifier& type;
     Block& block;
+
     FuncDeclaration(
             Identifier& id,
             const ParamList& arguments,
@@ -202,6 +215,7 @@ public:
     Expression& condition;
     Statement& block;
     Statement* else_block;
+
     Conditional(
             Expression& condition,
             Statement& block,
