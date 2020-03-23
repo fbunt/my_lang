@@ -109,10 +109,11 @@ void Block::translate() const
     }
     ast_print("}");
     if (parent == NULL) {
-        cout << " // end: " << id << endl;
+        cout << " // end: " << id;
     } else {
-        cout << " // end: " << parent->id.name << endl;
+        cout << " // end: " << parent->id.name;
     }
+    cout << endl;
 }
 
 void ExprStatement::translate() const
