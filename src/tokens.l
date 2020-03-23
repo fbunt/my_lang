@@ -46,6 +46,8 @@ extern "C" int yylex();
 "if"               { return TOKEN(IF); }
 "else"             { return TOKEN(ELSE); }
 "while"            { return TOKEN(WHILE); }
+"for"              { return TOKEN(FOR); }
+"in"               { return TOKEN(IN); }
 
 "true"             { SAVE_TOKEN; return BOOLEAN; }
 "false"            { SAVE_TOKEN; return BOOLEAN; }
@@ -77,7 +79,7 @@ extern "C" int yylex();
 ")"                { return TOKEN(RPAREN); }
 "{"                { return TOKEN(LBRACE); }
 "}"                { return TOKEN(RBRACE); }
-"."                { return TOKEN(DOT); }
+".."               { return TOKEN(DOT_DOT); }
 ","                { return TOKEN(COMMA); }
 ";"                { return TOKEN(SEMI); }
 ":"                { return TOKEN(COLON); }

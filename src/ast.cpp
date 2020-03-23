@@ -232,6 +232,23 @@ void WhileLoop::translate() const
     block.translate();
 }
 
+void ForLoop::translate() const
+{
+    cout << endl;
+    cout << "for (long long ";
+    loop_var.translate();
+    cout << " = ";
+    start.translate();
+    cout << "; ";
+    loop_var.translate();
+    cout << " <= ";
+    end.translate();
+    cout << "; ++";
+    loop_var.translate();
+    ast_println(")");
+    block.translate();
+}
+
 void Program::validate() const
 {
     // TODO: walk AST and enforce sturcture

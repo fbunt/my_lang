@@ -238,6 +238,24 @@ public:
     void translate() const;
 };
 
+class ForLoop : public Statement
+{
+public:
+    const Identifier& loop_var;
+    Expression& start;
+    Expression& end;
+    Block& block;
+
+    ForLoop(const Identifier& loop_var,
+            Expression& start,
+            Expression& end,
+            Block& block) :
+        loop_var(loop_var), start(start), end(end), block(block)
+    {
+    }
+
+    void translate() const;
+};
 
 class Program
 {
