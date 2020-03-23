@@ -27,6 +27,11 @@ fn add25(a: int) -> int {
 }
 
 fn main() {
+    /*
+     * There are two builtin print functions currently:
+     * fn printi(arg: int)
+     * fn printd(arg: double)
+     */
     printi(add10(2))
     printd(sub5(10))
     printi(add25(5))
