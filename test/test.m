@@ -35,4 +35,6 @@ fn main() {
     printi(add10(2))
     printd(sub5(10))
     printi(add25(5))
+    b: bool = true
+    printi(b)
 }
