@@ -250,6 +250,8 @@ int main(int argc, char** argv)
         Program program(ast_root);
         program.validate();
         program.translate();
+    } else {
+        cout << "Parsing failed" << endl;
     }
     return 0;
 }
