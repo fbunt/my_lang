@@ -254,8 +254,8 @@ void Program::declare_builtin_funcs() const
     string func_print = "print";
     mangle_func_name(func_print);
 
-    // print(int)
-    cout << "void " << func_print << "(int arg) {" << endl;
+    // print(long long)
+    cout << "void " << func_print << "(long long arg) {" << endl;
     ast_println("std::cout << arg << std::endl;");
     ast_println("}");
     cout << endl;
