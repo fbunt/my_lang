@@ -76,10 +76,10 @@ program
 statements
     : statement {
         $$ = new Block(bid++);
-        $$->statements.push_back($<stmt>1);
+        $$->statements.push_back($1);
     }
     | statements statement {
-        $1->statements.push_back($<stmt>2);
+        $1->statements.push_back($2);
     }
     ;
 statement
