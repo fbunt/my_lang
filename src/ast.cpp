@@ -161,11 +161,12 @@ void FuncDeclaration::translate() const
     }
     cout << ")";
     block.translate();
+    cout << endl;
 }
 
 void Return::translate() const
 {
-    ast_print("return");
+    ast_print("return ");
     expr.translate();
     ast_println(";");
 }
