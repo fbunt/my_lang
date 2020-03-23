@@ -115,7 +115,7 @@ void Block::translate() const
     // Only print braces if not outer most block
     if (!is_outer) {
         ast_print("}");
-        if (parent == NULL) {
+        if (parent == nullptr) {
             cout << " // end: " << id;
         } else {
             cout << " // end: " << parent->id.name;

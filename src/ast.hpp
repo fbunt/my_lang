@@ -123,7 +123,7 @@ class Block : public Expression
 {
 public:
     StatementList statements;
-    FuncDeclaration* parent = NULL;
+    FuncDeclaration* parent = nullptr;
     bool is_outer = false;
     long long id;
     Block(long long id) : id(id) {}
