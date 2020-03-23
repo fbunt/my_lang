@@ -73,14 +73,11 @@ public:
 class FuncCall : public Expression
 {
 public:
-    const Identifier& id;
+    Identifier& id;
     ExprList arguments;
 
-    FuncCall(const Identifier& id, ExprList& arguments) :
-        id(id), arguments(arguments)
-    {
-    }
-    FuncCall(const Identifier& id) : id(id) {}
+    FuncCall(Identifier& id, ExprList& arguments);
+    FuncCall(Identifier& id);
 
     void translate() const;
 };
@@ -240,5 +237,6 @@ public:
 
 private:
     void declare_imports() const;
+    void declare_builtin_funcs() const;
 };
 #endif  // __AST_HPP__

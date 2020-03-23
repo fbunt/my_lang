@@ -14,6 +14,20 @@ using std::string;
 void ast_print(string s) { cout << s; }
 void ast_println(string s) { cout << s << endl; }
 
+/** Avoid collisions with C++ names */
+void mangle_func_name(string& name)
+{
+    if (name == "main") {
+        name.append("__func__");
+    }
+}
+
+Identifier& mangle_func_id(Identifier& id)
+{
+    mangle_func_name(id.name);
+    return id;
+}
+
 void AstNode::translate() const { ast_println("Base AstNode"); }
 
 void Integer::translate() const { cout << value; }
@@ -27,6 +41,13 @@ void Boolean::translate() const
 }
 
 void Identifier::translate() const { cout << name; }
+
+FuncCall::FuncCall(Identifier& id, ExprList& arguments) :
+    id(mangle_func_id(id)), arguments(arguments)
+{
+}
+
+FuncCall::FuncCall(Identifier& id) : id(mangle_func_id(id)) {}
 
 void FuncCall::translate() const
 {
@@ -149,15 +170,6 @@ void FuncParam::translate() const
     id.translate();
 }
 
-/** Avoid collisions with C++ names */
-void mangle_func_name(string& name) { name.append("__func__"); }
-
-Identifier& mangle_func_id(Identifier& id)
-{
-    mangle_func_name(id.name);
-    return id;
-}
-
 std::unordered_set<std::string> Program::func_name_set;
 
 FuncDeclaration::FuncDeclaration(
@@ -229,14 +241,32 @@ void Program::declare_imports() const
     cout << endl;
 }
 
-void Program::translate() const {
+void Program::declare_builtin_funcs() const
+{
+    string func_print = "print";
+    mangle_func_name(func_print);
+
+    // print(int)
+    cout << "void " << func_print << "(int arg) {" << endl;
+    ast_println("std::cout << arg << std::endl;");
+    ast_println("}");
+    cout << endl;
+    // print(double)
+    cout << "void " << func_print << "(double arg) {" << endl;
+    ast_println("std::cout << arg << std::endl;");
+    ast_println("}");
+}
+
+void Program::translate() const
+{
     declare_imports();
+    declare_builtin_funcs();
 
     ast->translate();
     ast_println("int main(int argc, char** argv) {");
     string main_str("main");
     mangle_func_name(main_str);
-    const Identifier main_id(main_str);
+    Identifier main_id(main_str);
     ExprList exprs;
     FuncCall(main_id, exprs).translate();
     ast_println(";");
