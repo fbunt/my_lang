@@ -224,13 +224,13 @@ public:
     void translate() const;
 };
 
-class While : public Statement
+class WhileLoop : public Statement
 {
 public:
     Expression& condition;
     Block& block;
 
-    While(Expression& condition, Block& block) :
+    WhileLoop(Expression& condition, Block& block) :
         condition(condition), block(block)
     {
     }

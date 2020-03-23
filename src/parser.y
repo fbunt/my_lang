@@ -160,7 +160,7 @@ return
     ;
 control_flow
     : if_else
-    | while
+    | while_loop
     ;
 if_else
     : IF expr block {
@@ -173,9 +173,9 @@ if_else
         $$ = new Conditional(*$2, *$2, $5);
     }
     ;
-while
+while_loop
     : WHILE expr block {
-        $$ = new While(*$2, *$3);
+        $$ = new WhileLoop(*$2, *$3);
     }
     ;
 expr

@@ -224,7 +224,7 @@ void Conditional::translate() const
     }
 }
 
-void While::translate() const
+void WhileLoop::translate() const
 {
     ast_print("while (");
     condition.translate();
