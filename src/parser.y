@@ -65,7 +65,7 @@ long long bid = 0;
 %%
 
 program
-    : {
+    : /* blank */ {
         ast_root = new Block(bid++);
     }
     | statements {
