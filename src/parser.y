@@ -51,8 +51,7 @@ long long bid = 0;
 %type<paramlist> func_decl_params
 %type<exprlist> call_args
 %type<block> program statements block
-%type<stmt> statement var_decl func_decl param_decl return control_flow
-%type<stmt> if_else block_or_if_else
+%type<stmt> statement var_decl func_decl param_decl return control_flow if_else
 %type<token> comparison
 
 %right EQUALS
@@ -168,13 +167,12 @@ if_else
     : IF expr block {
         $$ = new Conditional(*$2, *$2);
     }
-    | IF expr block ELSE block_or_if_else {
+    | IF expr block ELSE block {
         $$ = new Conditional(*$2, *$2, $5);
     }
-    ;
-block_or_if_else
-    : block
-    | if_else
+    | IF expr block ELSE if_else {
+        $$ = new Conditional(*$2, *$2, $5);
+    }
     ;
 expr
     : ident EQUALS expr {
