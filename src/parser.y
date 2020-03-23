@@ -25,10 +25,10 @@ long long bid = 0;
 
 /*** union of all possible data return types from grammar ***/
 %union {
-    Block* block;
     Expression* expr;
     Statement* stmt;
-    Identifier* ident;
+    Block* block;
+    Identifier* id;
     VarDeclaration* var_decl;
     FuncParam* param_decl;
     ParamList* paramlist;
@@ -46,7 +46,7 @@ long long bid = 0;
 
 
 /* Nonterminal types */
-%type<ident> ident
+%type<id> id
 %type<expr> literal expr binary_op_expr boolean_expr
 %type<paramlist> func_decl_params
 %type<exprlist> call_args
@@ -75,10 +75,10 @@ program
 statements
     : statement {
         $$ = new Block(bid++);
-        $$->statements.push_back($<stmt>1);
+        $$->statements.push_back($1);
     }
     | statements statement {
-        $1->statements.push_back($<stmt>2);
+        $1->statements.push_back($2);
     }
     ;
 statement
@@ -99,20 +99,20 @@ block
     }
     ;
 var_decl
-    : ident COLON ident {
+    : id COLON id {
         $$ = new VarDeclaration(*$1, *$3);
     }
-    | ident COLON ident EQUALS expr {
+    | id COLON id EQUALS expr {
         $$ = new VarDeclaration(*$1, *$3, $5);
     }
     ;
 func_decl
-    : FN ident LPAREN func_decl_params RPAREN block {
+    : FN id LPAREN func_decl_params RPAREN block {
         Identifier* type = new Identifier("void");
         $$ = new FuncDeclaration(*$2, *$4, *type, *$6);
         delete $4;
     }
-    | FN ident LPAREN func_decl_params RPAREN ARROW ident block {
+    | FN id LPAREN func_decl_params RPAREN ARROW id block {
         $$ = new FuncDeclaration(*$2, *$4, *$7, *$8);
         delete $4;
     }
@@ -130,11 +130,11 @@ func_decl_params
     }
     ;
 param_decl
-    : ident COLON ident {
+    : id COLON id {
         $$ = new FuncParam(*$1, *$3);
     }
     ;
-ident
+id
     : IDENTIFIER {
         $$ = new Identifier(*$1);
         delete $1;
@@ -181,20 +181,20 @@ while_loop
     }
     ;
 for_loop
-    : FOR ident IN LPAREN expr DOT_DOT expr RPAREN block {
+    : FOR id IN LPAREN expr DOT_DOT expr RPAREN block {
         $$ = new ForLoop(*$2, *$5, *$7, *$9);
     }
     ;
 expr
-    : ident EQUALS expr {
-        $$ = new Assignment(*$<ident>1, *$3);
+    : id EQUALS expr {
+        $$ = new Assignment(*$1, *$3);
     }
-    | ident LPAREN call_args RPAREN {
+    | id LPAREN call_args RPAREN {
         $$ = new FuncCall(*$1, *$3);
         delete $3;
     }
-    | ident {
-        $<ident>$ = $1;
+    | id {
+        $$ = $1;
     }
     | binary_op_expr
     | boolean_expr
