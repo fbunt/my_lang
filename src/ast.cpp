@@ -126,7 +126,7 @@ void Block::translate() const
     if (!is_outer) {
         ast_print("{");
         if (parent == NULL) {
-            cout << " // end: " << id;
+            cout << " // start: " << id;
         }
     }
     cout << endl;
@@ -228,13 +228,12 @@ void WhileLoop::translate() const
 {
     ast_print("while (");
     condition.translate();
-    ast_println(")");
+    ast_print(")");
     block.translate();
 }
 
 void ForLoop::translate() const
 {
-    cout << endl;
     cout << "for (long long ";
     loop_var.translate();
     cout << " = ";
@@ -245,7 +244,7 @@ void ForLoop::translate() const
     end.translate();
     cout << "; ++";
     loop_var.translate();
-    ast_println(")");
+    ast_print(")");
     block.translate();
 }
 
@@ -268,16 +267,18 @@ void Program::declare_imports() const
 
 void Program::declare_builtin_funcs() const
 {
-    string func_print = "print";
-    mangle_func_name(func_print);
+    string func_printi = "printi";
+    string func_printd = "printd";
+    mangle_func_name(func_printi);
+    mangle_func_name(func_printd);
 
-    // print(long long)
-    cout << "void " << func_print << "(long long arg) {" << endl;
+    // printi(long long)
+    cout << "void " << func_printi << "(long long arg) {" << endl;
     ast_println("std::cout << arg << std::endl;");
     ast_println("}");
     cout << endl;
-    // print(double)
-    cout << "void " << func_print << "(double arg) {" << endl;
+    // printd(double)
+    cout << "void " << func_printd << "(double arg) {" << endl;
     ast_println("std::cout << arg << std::endl;");
     ast_println("}");
 }
