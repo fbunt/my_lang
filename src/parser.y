@@ -23,7 +23,7 @@ Block* ast_root = nullptr;
 long long bid = 0;
 %}
 
-/*** union of all possible data return types from grammar ***/
+/* All possible AST node types */
 %union {
     Expression* expr;
     Statement* stmt;
