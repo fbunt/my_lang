@@ -26,6 +26,16 @@ fn add25(a: int) -> int {
     return a
 }
 
+fn branch(i: int) -> int {
+    if i < 0 {
+        return -1
+    } else if i == 0 {
+        return 0
+    } else {
+        return 1
+    }
+}
+
 fn main() {
     /*
      * There are two builtin print functions currently:
@@ -37,4 +47,7 @@ fn main() {
     printi(add25(5))
     b: bool = true
     printi(b)
+    printi(branch(-9))
+    printi(branch(0))
+    printi(branch(100))
 }
