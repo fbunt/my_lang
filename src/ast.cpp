@@ -222,13 +222,23 @@ void Program::validate() const
     }
 }
 
+void Program::declare_imports() const
+{
+    ast_println("#include <iostream>");
+    cout << endl;
+}
+
 void Program::translate() const {
+    declare_imports();
+
+    ast->translate();
     ast_println("int main(int argc, char** argv) {");
     string main_str("main");
     mangle_func_name(main_str);
     const Identifier main_id(main_str);
     ExprList exprs;
     FuncCall(main_id, exprs).translate();
-    cout << endl;
+    ast_println(";");
+    ast_println("return 0;");
     ast_println("}");
 }

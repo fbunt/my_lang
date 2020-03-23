@@ -223,5 +223,8 @@ public:
 
     void validate() const;
     void translate() const;
+
+private:
+    void declare_imports() const;
 };
 #endif  // __AST_HPP__
