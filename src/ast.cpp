@@ -207,6 +207,7 @@ void Conditional::translate() const
     ast_print(")");
     block.translate();
     if (else_block != nullptr) {
+        ast_print("else");
         else_block->translate();
     }
 }
