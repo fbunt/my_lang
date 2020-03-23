@@ -124,10 +124,12 @@ class Block : public Expression
 public:
     StatementList statements;
     FuncDeclaration* parent = NULL;
+    bool is_outer = false;
     long long id;
     Block(long long id) : id(id) {}
 
     void set_parent(FuncDeclaration* parent) { this->parent = parent; }
+    void set_outer() { is_outer = true; }
     void translate() const;
 };
 

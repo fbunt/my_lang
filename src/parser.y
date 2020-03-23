@@ -67,9 +67,11 @@ long long bid = 0;
 program
     : {
         program = new Block(bid++);
+        program->set_outer();
     }
     | statements {
         program = $1;
+        program->set_outer();
     }
     ;
 statements
@@ -235,8 +237,10 @@ comparison
 int main(int argc, char **argv)
 {
 	yyparse();
+    program->translate();
+    Block main_block(bid++);
     FuncDeclaration main(
-            Identifier("main"), ParamList(), Identifier("int"), *program);
+            Identifier("main"), ParamList(), Identifier("int"), main_block);
     main.translate();
     return 0;
 }

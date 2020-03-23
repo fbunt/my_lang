@@ -99,19 +99,27 @@ void Assignment::translate() const
 void Block::translate() const
 {
     cout << endl;
-    ast_print("{");
-    if (parent == NULL) {
-        cout << " // end: " << id;
+    // Only print braces if not outer most block
+    if (!is_outer) {
+        ast_print("{");
+        if (parent == NULL) {
+            cout << " // end: " << id;
+        }
     }
     cout << endl;
+
     for (size_t i = 0; i < statements.size(); ++i) {
         statements[i]->translate();
     }
-    ast_print("}");
-    if (parent == NULL) {
-        cout << " // end: " << id;
-    } else {
-        cout << " // end: " << parent->id.name;
+
+    // Only print braces if not outer most block
+    if (!is_outer) {
+        ast_print("}");
+        if (parent == NULL) {
+            cout << " // end: " << id;
+        } else {
+            cout << " // end: " << parent->id.name;
+        }
     }
     cout << endl;
 }
