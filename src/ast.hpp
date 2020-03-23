@@ -224,6 +224,21 @@ public:
     void translate() const;
 };
 
+class While : public Statement
+{
+public:
+    Expression& condition;
+    Block& block;
+
+    While(Expression& condition, Block& block) :
+        condition(condition), block(block)
+    {
+    }
+
+    void translate() const;
+};
+
+
 class Program
 {
 public:

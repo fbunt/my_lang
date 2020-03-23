@@ -45,6 +45,7 @@ extern "C" int yylex();
 "return"           { return TOKEN(RETURN); }
 "if"               { return TOKEN(IF); }
 "else"             { return TOKEN(ELSE); }
+"while"            { return TOKEN(WHILE); }
 
 "true"             { SAVE_TOKEN; return BOOLEAN; }
 "false"            { SAVE_TOKEN; return BOOLEAN; }

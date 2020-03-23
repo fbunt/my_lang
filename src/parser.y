@@ -42,7 +42,7 @@ long long bid = 0;
 %token<token> EQUALS ADD SUB MULT DIV DOT COMMA
 %token<token> COMP_EQ COMP_NEQ COMP_LEQ COMP_GEQ COMP_LT COMP_GT
 %token<token> LPAREN RPAREN LBRACE RBRACE SEMI ARROW COLON
-%token<token> FN LET RETURN IF ELSE
+%token<token> FN LET RETURN IF ELSE WHILE
 
 
 /* Nonterminal types */
@@ -51,7 +51,7 @@ long long bid = 0;
 %type<paramlist> func_decl_params
 %type<exprlist> call_args
 %type<block> program statements block
-%type<stmt> statement var_decl func_decl param_decl return control_flow if_else
+%type<stmt> statement var_decl func_decl param_decl return control_flow if_else while
 %type<token> comparison
 
 %right EQUALS
@@ -160,6 +160,7 @@ return
     ;
 control_flow
     : if_else
+    | while
     ;
 if_else
     : IF expr block {
@@ -170,6 +171,11 @@ if_else
     }
     | IF expr block ELSE if_else {
         $$ = new Conditional(*$2, *$2, $5);
+    }
+    ;
+while
+    : WHILE expr block {
+        $$ = new While(*$2, *$3);
     }
     ;
 expr

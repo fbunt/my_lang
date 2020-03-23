@@ -224,6 +224,14 @@ void Conditional::translate() const
     }
 }
 
+void While::translate() const
+{
+    ast_print("while (");
+    condition.translate();
+    ast_println(")");
+    block.translate();
+}
+
 void Program::validate() const
 {
     // TODO: walk AST and enforce sturcture
