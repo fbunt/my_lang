@@ -2,7 +2,10 @@
 
 This is my toy language that I am, for now, calling mlang. It is built
 using Flex and Bison. The parser created after building this project
-transpiles mlang files to very basic C++.
+transpiles mlang files to very basic C++. I took a lot of inspiration from
+[Rust].
+
+[Rust]: https://www.rust-lang.org
 
 ## Building
 
